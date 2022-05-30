@@ -12,19 +12,26 @@ namespace mcts
 
         Random rand = new Random(6666);
         public XiefangBoard board = new XiefangBoard();
-        public List<string> memory = new List<string>(64);
-        public void Reset()
+        public List<string> memory = new List<string>();
+        public void Reset(List<int> boardState = null)
         {
-            board.Reset();
+            board.Reset(boardState);
+        }
+        //这个只是为了mcts用
+        public XiefangChess Copy()
+        {
+            XiefangChess c = new XiefangChess();
+            c.Reset(board.boardNodes);
+            return c;
         }
         //这里缺少一个 重复棋的判断
-        public bool HumanMakeMove(int from,int to)
+        public bool HumanMakeMove(int from, int to)
         {
             bool r = false;
             if (board.boardNodes[from] == (int)XiefangPlayer.HUMAN)
             {
                 r = board.MovePiece(from, to);
-                if (r) memory.Add(string.Format("h_{0}_{1}",from,to));
+                if (r) memory.Add(CreateMoveCommand(XiefangPlayer.HUMAN, from, to));
             }
             return r;
         }
@@ -35,7 +42,7 @@ namespace mcts
             if (board.boardNodes[from] == (int)XiefangPlayer.MACHINE)
             {
                 r = board.MovePiece(from, to);
-                if (r) memory.Add(string.Format("m_{0}_{1}", from, to));
+                if (r) memory.Add(CreateMoveCommand(XiefangPlayer.MACHINE, from, to));
             }
             return r;
 
@@ -44,14 +51,14 @@ namespace mcts
         {
             var items = command.Split(SEP);
             bool ret = false;
-            switch(items[0])
+            switch (items[0])
             {
                 case "h":
                     { ret = HumanMakeMove(Convert.ToInt32(items[1]), Convert.ToInt32(items[2])); break; }
                 case "m":
                     { ret = MachineMakeMove(Convert.ToInt32(items[1]), Convert.ToInt32(items[2])); break; }
                 case "r":
-                    { Reset(); ret = true; break; }
+                    { Reset(null); ret = true; break; }
                 default:
                     break;
             }
@@ -132,8 +139,14 @@ namespace mcts
                     { sp.Add(edge.Item2); from = idx; }
                 }
             }
-            if (sp.Count > 0) { act = new Tuple<int, int>(sp[rand.Next(0,sp.Count)], from); }
+            if (sp.Count > 0) { act = new Tuple<int, int>(sp[rand.Next(0, sp.Count)], from); }
             return act;
+        }
+        //
+        public static string CreateMoveCommand(XiefangPlayer player, int from, int to)
+        {
+            var p = player == XiefangPlayer.HUMAN ? "h" : "m";
+            return string.Format("{0}_{1}_{2}", p, from, to);
         }
     }
 
@@ -224,7 +237,7 @@ namespace mcts
             });
         }
         //
-        public void Reset()
+        public void Reset(List<int> boardState)
         {
             boardNodes[0] = (int)XiefangPlayer.MACHINE;
             boardNodes[1] = (int)XiefangPlayer.MACHINE;
@@ -238,6 +251,12 @@ namespace mcts
             boardNodes[9] = (int)XiefangPlayer.HUMAN;
             boardNodes[10] = (int)XiefangPlayer.HUMAN;
             boardNodes[11] = (int)XiefangPlayer.HUMAN;
+            //
+            if (boardState != null)
+            {
+                boardNodes.Clear();
+                boardNodes = new List<int>(boardState);
+            }
         }
         //
         public List<int> FindPlayerNodes(XiefangPlayer player)
@@ -267,7 +286,7 @@ namespace mcts
         public bool MovePiece(int from, int to)
         {
             var piece = boardNodes[from];
-            if (boardNodes[to] == 0 && piece != 0 && IsAdjacent(from,to))
+            if (boardNodes[to] == 0 && piece != 0 && IsAdjacent(from, to))
             {
                 boardNodes[to] = piece;
                 boardNodes[from] = 0;
@@ -279,7 +298,7 @@ namespace mcts
         public bool IsAdjacent(int a, int b)
         {
             var edges = boardNodesLinks[a];
-            foreach(var edge in edges)
+            foreach (var edge in edges)
             {
                 if (edge.Item2 == b) return true;
             }

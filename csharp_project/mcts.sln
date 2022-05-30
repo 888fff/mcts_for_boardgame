@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcts", "mcts\mcts.csproj", "{B67E2195-5423-4E9F-9954-F7D8C760D017}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mcts", "mcts\mcts.csproj", "{B67E2195-5423-4E9F-9954-F7D8C760D017}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Tree", "Test_Tree\Test_Tree.csproj", "{0A8E6FB2-BA58-476E-B3A4-0D85BC91E7A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Game", "Test_Game\Test_Game.csproj", "{CC583D1C-F414-40F5-AD9F-9920CD9D97EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{B67E2195-5423-4E9F-9954-F7D8C760D017}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B67E2195-5423-4E9F-9954-F7D8C760D017}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B67E2195-5423-4E9F-9954-F7D8C760D017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A8E6FB2-BA58-476E-B3A4-0D85BC91E7A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A8E6FB2-BA58-476E-B3A4-0D85BC91E7A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A8E6FB2-BA58-476E-B3A4-0D85BC91E7A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A8E6FB2-BA58-476E-B3A4-0D85BC91E7A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC583D1C-F414-40F5-AD9F-9920CD9D97EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC583D1C-F414-40F5-AD9F-9920CD9D97EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC583D1C-F414-40F5-AD9F-9920CD9D97EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC583D1C-F414-40F5-AD9F-9920CD9D97EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
